@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanika's Food Mission ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffd6e7,#fff3f8);min-height:100vh;display:flex;justify-content:center;align-items:center;color:#4a1830}
+.game{width:min(94vw,430px);min-height:650px;background:#fff;border-radius:28px;padding:20px;box-shadow:0 12px 40px #0002;text-align:center;overflow:hidden}
+h1{font-size:28px;margin:10px 0}
+p{font-size:17px;line-height:1.5}
+button{border:0;border-radius:18px;padding:14px 22px;font-size:17px;font-weight:bold;background:#ff5c9a;color:white;box-shadow:0 5px 0 #d83b78;cursor:pointer}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 #d83b78}
+.hidden{display:none}
+.character{width:210px;height:300px;object-fit:cover;object-position:center top;border-radius:22px;margin:12px auto;display:block}
+.arena{position:relative;height:330px;background:#fff5f9;border-radius:22px;overflow:hidden;border:2px solid #ffd0e2}
+.food{position:absolute;font-size:42px;cursor:pointer;user-select:none;transition:transform .12s}
+.score{font-weight:bold;font-size:18px;margin:8px}
+.message{font-size:20px;font-weight:bold;min-height:55px}
+.small{font-size:13px;opacity:.7}
+</style>
+</head>
+<body>
+<div class="game">
+  <section id="start">
+    <div style="font-size:52px">🍱❤️</div>
+    <h1>Kanika's Food Mission</h1>
+    <p>Ek chhota sa mission hai... ready? 😌</p>
+    <button onclick="startGame()">START MISSION 🚀</button>
+    <p class="small">No pressure. Bas game khelo aur smile karo ❤️</p>
+  </section>
+
+  <section id="play" class="hidden">
+    <h1>Food Catch! 🍕</h1>
+    <div class="score">Food collected: <span id="score">0</span>/5</div>
+    <div class="arena" id="arena"></div>
+    <p class="message" id="msg">Food pakdo! 😄</p>
+  </section>
+
+  <section id="win" class="hidden">
+    <div style="font-size:55px">🎉🍱❤️</div>
+    <h1>MISSION COMPLETE!</h1>
+    <img class="character" src="kanika.jpg" alt="Character">
+    <p><b>Game toh complete ho gaya...</b></p>
+    <p>Ab real-life wala mission bhi complete karo 😌❤️</p>
+    <p><b>Kuch kha lo, please. 🥹🍚</b></p>
+    <button onclick="location.reload()">PLAY AGAIN 🔄</button>
+  </section>
+</div>
+
+<script>
+let score=0;
+const foods=["🍕","🍔","🍎","🍫","🥪","🍓","🍜","🍪"];
+
+function startGame(){
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("play").classList.remove("hidden");
+  spawnFood();
+}
+function spawnFood(){
+  const arena=document.getElementById("arena");
+  const food=document.createElement("div");
+  food.className="food";
+  food.textContent=foods[Math.floor(Math.random()*foods.length)];
+  food.style.left=Math.random()*82+"%";
+  food.style.top=Math.random()*78+"%";
+  food.onclick=()=>{
+    score++;
+    document.getElementById("score").textContent=score;
+    food.remove();
+    if(score>=5){
+      document.getElementById("play").classList.add("hidden");
+      document.getElementById("win").classList.remove("hidden");
+      return;
+    }
+    document.getElementById("msg").textContent=["Nice! 😋","One more! ❤️","Food collected! 🔥","Keep going! 😄"][Math.floor(Math.random()*4)];
+    spawnFood();
+  };
+  arena.appendChild(food);
+}
+</script>
+</body>
+</html>
